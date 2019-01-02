@@ -1,0 +1,36 @@
+nav {
+  border-bottom: #282828 solid 2px;
+  margin-bottom: 2rem;
+}
+.navbar-brand {
+    color: #fff;
+    font-size: 1.8rem;
+}
+.navbar-brand:hover {
+    text-decoration: none;
+    color: #535151;
+}
+.navbar-brand > img {
+  max-width: 3rem;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+.navbar-header {
+  margin: 0 auto;
+}
+.jumbotron {
+  padding-bottom: 2.7rem;
+  padding-top: 1.5rem;
+}
+.jumbotron > h3 {
+  margin-bottom: 2rem;
+}
+#searchText {
+  font-size: 1.5rem;
+  padding: 1.4rem;
+}
+@media screen and (max-width: 410px) {
+  .jumbotron > h3 {
+    font-size: 2.2rem;
+  }
+}
