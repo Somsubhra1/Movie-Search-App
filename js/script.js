@@ -1,16 +1,30 @@
 $(document).ready(() => {
-  $("#searchForm").on("submit", event => {
-    event.preventDefault();
-    var searchText = $("#searchText").val();
-    getMovies(searchText);
+    // handling submit event and setting sessionStorage
+    $("#searchForm").on("submit", event => {
+        event.preventDefault();
+        var searchText = $("#searchText").val();        
+        var movieSearch = [];
+        movieSearch[0] = searchText;
+        sessionStorage.setItem('movieId', JSON.stringify(movieSearch));
+        getMovies(searchText);
   });
 });
 
-var getMovies = searchText => {
-  axios
+// Fetching movies
+var getMovies = () => {
+    var searchText = JSON.parse(sessionStorage.getItem("movieId"))[0];
+    // Validation check
+    if (!searchText) {
+      return;
+    }
+    $('#searchText').val(searchText); 
+    
+    // calling to OMdb API
+    axios
     .get(`http://www.omdbapi.com/?apikey=5d29f831&s=${searchText}`)
       .then(response => {
-      var output = "";      
+      var output = "";  
+      // Not Found check    
       if (response.data.Response === 'False') {          
         output = `<h2 class="mx-auto">Movie Not Found</h2>`;
           $("#movies").html(output);
@@ -19,6 +33,7 @@ var getMovies = searchText => {
       output = "";
       var movies = response.data.Search;
     //   console.log(response);
+      // Designing output
       $.each(movies, (index, movie) => {
         output += `
             <div class="col-md-3">
@@ -38,19 +53,27 @@ var getMovies = searchText => {
     });
 };
 
+// setting movieId to sessionStorage
 var movieSelected = id => {
-    sessionStorage.setItem('movieId', id);
+    var movieSearch = JSON.parse(sessionStorage.getItem('movieId'));
+    movieSearch[1] = id;
+    sessionStorage.setItem('movieId', JSON.stringify(movieSearch));
+    // sessionStorage.setItem('movieId', id);
     // window.location = 'movie.html';
     return false;
 }
 
+// fetching the selected movie by it's ID
 var getMovie = () => {
-    var movieId = sessionStorage.getItem('movieId');
+    // var movieId = sessionStorage.getItem('movieId');
+    var movieSearch = JSON.parse(sessionStorage.getItem("movieId"));
+    movieId = movieSearch[1];    
     axios
         .get(`http://www.omdbapi.com/?apikey=5d29f831&i=${movieId}`)
         .then(response => {
             // console.log(response);
             var movie = response.data;
+            // Designing output
             var output = `
                 <div class="row">
                     <div class="col-md-4">
@@ -80,7 +103,7 @@ var getMovie = () => {
                         <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary mb-3">
                         View IMDb
                         </a>
-                        <a href="index.html" target="_self" class="btn btn-secondary">
+                        <a target="_self" class="btn btn-secondary" onclick="getMovies()" href="index.html">
                         Go back
                         </a>
                     </div>
