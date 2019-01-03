@@ -21,13 +21,31 @@ nav {
 .jumbotron {
   padding-bottom: 2.7rem;
   padding-top: 1.5rem;
+  text-align: center;
 }
 .jumbotron > h3 {
   margin-bottom: 2rem;
 }
+#searchForm > button {
+  margin: 0 auto;
+}
 #searchText {
   font-size: 1.5rem;
   padding: 1.4rem;
+}
+#movies img, #movie img {
+  width: 100%;
+}
+#movies .col-md-3 .card {
+  height: fit-content;
+  height: 100%;
+  /* margin: 0px; */
+}
+.col-md-3 {
+  margin-bottom: 2rem;
+}
+.card > h5 {
+  margin-bottom: 1.5rem;
 }
 @media screen and (max-width: 410px) {
   .jumbotron > h3 {
